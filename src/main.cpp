@@ -23,7 +23,6 @@ double Ro = 10000.0;   // resitor 10k em C
 //const float ADC_LUT[4096] PROGMEM =
 //////////////////
  
- 
 void setup() {
   Serial.begin(115200);
   adc1_config_width(ADC_WIDTH_BIT_12);
@@ -31,22 +30,18 @@ void setup() {
   esp_adc_cal_value_t adc_type = esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 1100, &adc_cal); //Inicializa a estrutura de calibracao
  
  
-  ////////// temperatura
+  // temperatura
  
   ThermistorPin = 34;
   adcMax = 4095.0; // ADC 12-bit (0-4095)
   Vs = 3.3;        // voltagem
- 
- 
-  ///////////
 }
- 
  
 void loop() {
   uint32_t AD = 0;
   for (int i = 0; i < 100; i++)
   {
-    AD += adc1_get_raw(ADC1_CHANNEL_6);//Obtem o valor RAW do ADC
+    AD += adc1_get_raw(ADC1_CHANNEL_6); //Obtem o valor RAW do ADC
     ets_delay_us(30);
   }
   AD /= 100;
