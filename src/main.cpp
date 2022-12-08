@@ -16,7 +16,7 @@ double adcMax, Vs;
 String TempReal;
 double R1 = 10000.0;   // resitor 10k
 double Beta = 3950.0;  // Beta value
-double To = 298.15;    // temperatura em kelvin Kelvin
+double To = 295.15;    // temperatura em kelvin Kelvin
 double Ro = 10000.0;   // resitor 10k em C
  
 //calibrando tenção esp
@@ -24,7 +24,7 @@ double Ro = 10000.0;   // resitor 10k em C
 //////////////////
  
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   adc1_config_width(ADC_WIDTH_BIT_12);
   adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_0); //pin 34 esp32 devkit v1
   esp_adc_cal_value_t adc_type = esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 1100, &adc_cal); //Inicializa a estrutura de calibracao
@@ -61,9 +61,9 @@ void loop() {
   Tc = T - 273.15;                   // Celsius
   Tf = Tc * 9 / 5 + 32;              // Fahrenheit
   if (Tc > 0) Serial.print(Tc);
-  Serial.println(" Celsius");
-  delay(100);
-  if (Tf > 0) Serial.print(Tf);
-  Serial.println(" Fahrenheit");
-  delay(100);
+  Serial.println("°C");
+  delay(1000);
+  // if (Tf > 0) Serial.print(Tf);
+  // Serial.println(" Fahrenheit");
+  // delay(1000);
 }
