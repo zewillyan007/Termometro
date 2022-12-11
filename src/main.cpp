@@ -11,7 +11,9 @@
  
 esp_adc_cal_characteristics_t adc_cal; //Estrutura de calibração
 
-//wifi usuario e senha
+bool esp32 = true;       // mude para falso ao usar o Arduino
+
+//Configuração WiFi
 const char *ssid = "ESP32Will";
 const char *password = "esp123456789";
 
@@ -21,8 +23,7 @@ IPAddress netmask (255, 255, 255, 0);
 const int port = 5210;
 WiFiServer server(port);
  
-//temperatura
-bool esp32 = true;       // mude para falso ao usar o Arduino
+//pinos, resistores e tensões
 int ThermistorPin;
 double adcMax, Vs;
  
@@ -30,13 +31,11 @@ String TempReal;
 double R1 = 10000.0;   // resitor 10k
 double Beta = 3950.0;  // Beta value
 double To = 295.15;    // temperatura em kelvin Kelvin
-double Ro = 10000.0;   // resitor 10k em C
+double Ro = 10000.0;   // resitor 10k em sensor
  
 //calibrando tenção esp
-//const float ADC_LUT[4096] PROGMEM =
-//////////////////
 
-int Conect;
+int Conect; //contador para verificar conexão
 
 double Temperature() {
     
@@ -69,16 +68,14 @@ double Temperature() {
 void setup() {
   Serial.begin(9600);
   adc1_config_width(ADC_WIDTH_BIT_12);
-  adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_0); //pin 34 esp32 devkit v1
-  esp_adc_cal_value_t adc_type = esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 1100, &adc_cal); //Inicializa a estrutura de calibracao
+  adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_0); //pin 34 esp32
+  esp_adc_cal_value_t adc_type = esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 1100, &adc_cal); //Inicializa a estrutura de calibração
  
- 
-  // Temperatura
-  ThermistorPin = 34;
+  ThermistorPin = 34; //pino do sensor
   adcMax = 4095.0; // ADC 12-bit (0-4095)
   Vs = 3.3;        // voltagem
 
-  //wifi
+  //WiFi
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(ip, ip, netmask);
   WiFi.softAP(ssid, password);
@@ -89,14 +86,14 @@ void setup() {
   Serial.println(WiFi.localIP());
   server.begin();
 }
- 
+
 void loop() {
 
   double Temp = 0;
 
   if (!client.connected()) {
     Serial.println();
-    Serial.println("Não há aparelho conectado");
+    Serial.println("Não há aparelho conectado!");
     
     Temp = Temperature();
 
@@ -108,7 +105,7 @@ void loop() {
 
     Conect = 0;
 
-    client = server.available();
+    client = server.available(); //reconexão
     return;
   }
 
@@ -116,7 +113,7 @@ void loop() {
 
     if (Conect == 0) {
       Serial.println();
-      Serial.println("Conectado com Sucesso");
+      Serial.println("Conectado com Sucesso!");
     }
     
     Temp = Temperature();
@@ -128,7 +125,7 @@ void loop() {
       client.println("°C");
       delay(1000);
     }
-    
+
     Conect ++;
   }
 }
