@@ -128,6 +128,7 @@ void loop() {
       client.println("°C");
       delay(1000);
     }
+    
     Conect ++;
   }
 }
