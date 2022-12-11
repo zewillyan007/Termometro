@@ -30,7 +30,7 @@ double adcMax, Vs;
 String TempReal;
 double R1 = 10000.0;   // resitor 10k
 double Beta = 3950.0;  // Beta value
-double To = 295.15;    // temperatura em kelvin Kelvin
+double To = 295.15;    // Constante de calibração
 double Ro = 10000.0;   // resitor 10k sensor
  
 //calibrando tenção esp
@@ -100,7 +100,7 @@ void loop() {
     if (Temp > 0) {
       Serial.print(Temp);
       Serial.println("°C");
-      delay(1000);
+      delay(2000);
     }
 
     Conect = 0;
@@ -123,7 +123,7 @@ void loop() {
       Serial.println("°C");
       client.print(Temp);
       client.println("°C");
-      delay(1000);
+      delay(2000);
     }
 
     Conect ++;
