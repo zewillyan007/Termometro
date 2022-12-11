@@ -31,7 +31,7 @@ String TempReal;
 double R1 = 10000.0;   // resitor 10k
 double Beta = 3950.0;  // Beta value
 double To = 295.15;    // temperatura em kelvin Kelvin
-double Ro = 10000.0;   // resitor 10k em sensor
+double Ro = 10000.0;   // resitor 10k sensor
  
 //calibrando tenção esp
 
